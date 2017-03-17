@@ -15,10 +15,9 @@ public class IndexController {
     @RequestMapping("/home")
     public Map<String, String> home() {
         Map<String, String> result = new HashMap<>();
-        //DataUtilsKt.sayHello("");
-        result.put("username", "甘焕");
+        String message = FuncUtils.sayHello("甘焕");
+        result.put("username", message);
         return result;
-        //    return "Hello,World!";
     }
     
 }

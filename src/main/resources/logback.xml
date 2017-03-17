@@ -61,7 +61,7 @@
 		<appender-ref ref="STDOUT" />
 	</logger>
 	<logger name="ch.qos.logback" level="warn" additivity="false">
-		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE-AUDIT" />
 	</logger>
 	<!-- 调试Hibernate语句 -->
 	<!-- 在日志中记录Hibernate的查询语句 必须是DEBUG模式及以上 -->

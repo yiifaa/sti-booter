@@ -34,6 +34,16 @@
 			<artifactId>kotlin-stdlib</artifactId>
 			<version>${kotlin.version}</version>
 		</dependency>
+		
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+	    <dependency>
+            <groupId>${jdbc.groupId}</groupId>
+            <artifactId>${jdbc.artifactId}</artifactId>
+            <version>${jdbc.version}</version>
+        </dependency>
 
 		<!-- 必要的WEB调试环境, 在WEB环境中不需要，在APP环境中必需 -->
 		<!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-tomcat</artifactId> 
@@ -115,5 +125,44 @@
 			</plugin>
 		</plugins>
 	</build>
+	
+	<profiles>
+        <profile>
+            <id>oracle</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <jdbc.groupId>com.oracle</jdbc.groupId>
+                <jdbc.artifactId>ojdbc14</jdbc.artifactId>
+                <jdbc.version>11.2.0.1.0</jdbc.version>
+                <jdbc.type>oracle</jdbc.type>
+                <jdbc.driver>oracle.jdbc.driver.OracleDriver</jdbc.driver>
+                <jdbc.url>jdbc:oracle:thin:@${database.host}:1521:${database.name}</jdbc.url>
+                <jdbc.catalog>${database.name}</jdbc.catalog>
+                <jdbc.user>${database.user}</jdbc.user>
+                <jdbc.password>${database.password}</jdbc.password>
+                <hibernate.dialect>org.hibernate.dialect.Oracle10gDialect</hibernate.dialect>
+            </properties>
+        </profile>
+        <profile>
+            <id>mysql</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <jdbc.groupId>mysql</jdbc.groupId>
+                <jdbc.artifactId>mysql-connector-java</jdbc.artifactId>
+                <jdbc.version>6.0.4</jdbc.version>
+                <jdbc.type>mysql</jdbc.type>
+                <jdbc.driver>com.mysql.cj.jdbc.Driver</jdbc.driver>
+                <jdbc.url>jdbc:mysql://${database.host}/${database.name}?zeroDateTimeBehavior=convertToNull</jdbc.url>
+                <jdbc.catalog>${database.name}</jdbc.catalog>
+                <jdbc.user>${database.user}</jdbc.user>
+                <jdbc.password>${database.password}</jdbc.password>
+                <hibernate.dialect>org.hibernate.dialect.MySQL5InnoDBDialect</hibernate.dialect>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>

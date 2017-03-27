@@ -1,9 +1,12 @@
 package com.stixu;
 
-import java.util.HashMap;
-import java.util.Map;
+import javax.inject.Inject;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.stixu.domain.Role;
+import com.stixu.security.RoleRepository;
 
 /**
  *
@@ -12,12 +15,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class IndexController {
 	   
-    @RequestMapping("/home")
-    public Map<String, String> home() {
-        Map<String, String> result = new HashMap<>();
-        String message = FuncUtils.sayHello("甘焕");
-        result.put("username", message);
-        return result;
+	public RoleRepository roleRepository;
+	
+	
+    /**
+	 * @param roleRepository
+	 */
+	@Inject
+	public IndexController(RoleRepository roleRepository) {
+		super();
+		this.roleRepository = roleRepository;
+	}
+   
+    @RequestMapping("/role")
+    public Role getRole() {
+    	return roleRepository.findOne("0001");
     }
     
 }

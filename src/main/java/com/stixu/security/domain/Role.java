@@ -130,7 +130,7 @@ public class Role implements GrantedAuthority {
 	@Override
 	public String getAuthority() {
 		//以id作为标示
-		return SecurityConstants.ROLE_PREFIX + String.valueOf(id);
+		return name;
 	}
 
 	/* (non-Javadoc)

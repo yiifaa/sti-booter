@@ -67,6 +67,7 @@
 			
 		<intercept-url pattern="/app/**" access="hasRole('USER')" />
 		 -->
+		<custom-filter before="FILTER_SECURITY_INTERCEPTOR" ref="filterSecurityInterceptor"/>
 		<anonymous enabled="true" granted-authority="ROLE_ANONYMOUS"/> 
 		<csrf disabled="true"/>
 		<form-login authentication-success-forward-url="/app/home"

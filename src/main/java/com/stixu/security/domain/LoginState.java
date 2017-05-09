@@ -4,6 +4,8 @@
  */
 package com.stixu.security.domain;
 
+import java.util.Date;
+
 /**
  * 
  * 
@@ -12,6 +14,8 @@ package com.stixu.security.domain;
  * 开发日期：2017年5月9日 ： 下午2:29:55 
  */
 public class LoginState {
+	
+	private long timestamp = 0;
 	
 	private int status = 403;
 	
@@ -27,6 +31,7 @@ public class LoginState {
 	public LoginState(String contextPath) {
 		super();
 		this.contextPath = contextPath;
+		this.timestamp = new Date().getTime();
 	}
 
 	/**
@@ -83,6 +88,13 @@ public class LoginState {
 	 */
 	public void setContextPath(String contextPath) {
 		this.contextPath = contextPath;
+	}
+
+	/**
+	 * @return the timestamp
+	 */
+	public long getTimestamp() {
+		return timestamp;
 	}
 	
 }	

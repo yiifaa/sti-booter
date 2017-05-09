@@ -70,10 +70,10 @@
 		<custom-filter before="FILTER_SECURITY_INTERCEPTOR" ref="filterSecurityInterceptor"/>
 		<anonymous enabled="true" granted-authority="ROLE_ANONYMOUS"/> 
 		<csrf disabled="true"/>
-		<form-login authentication-success-forward-url="/app/home"
+		<form-login authentication-success-forward-url="/app/login/success"
 					authentication-failure-forward-url="/app/login/fail"
 					always-use-default-target="false"
-					default-target-url="/app/home"
+					default-target-url="/app/login/success"
 					login-page="/app/login/index"
 					login-processing-url="/login/check"/>
 					

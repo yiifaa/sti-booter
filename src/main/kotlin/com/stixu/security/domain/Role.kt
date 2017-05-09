@@ -7,6 +7,7 @@ import org.hibernate.annotations.GenericGenerator
 import javax.persistence.GeneratedValue
 import javax.persistence.Table
 import com.fasterxml.jackson.annotation.JsonIgnore
+import com.stixu.persistence.Domain
 
 /**
  * 角色管理，承担权限中的角色类
@@ -26,9 +27,13 @@ data class Role(
     @Column(name="ROLE_NAME", length=40)
     var name: String = ""
     
-    ) {
-    
-    //  备注信息
+    ) :Domain<String> {
+	
+	/*override fun getId(): String? {
+		return id
+	}*/
+	
+	//  备注信息
     @Column(name="ROLE_REMARKS", length=1000)
     @JsonIgnore
     lateinit var remarks:String

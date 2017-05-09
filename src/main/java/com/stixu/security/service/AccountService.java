@@ -8,7 +8,9 @@ import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.stixu.persistence.GenericService;
+import com.stixu.query.Pagination;
 import com.stixu.security.domain.Account;
+import com.stixu.security.query.AccountQuery;
 
 /**
  * 
@@ -18,5 +20,12 @@ import com.stixu.security.domain.Account;
  */
 @NoRepositoryBean
 public interface AccountService extends GenericService<Account, String>, UserDetailsService {
-
+	
+	/**
+	 * 查询分页对象
+	 * @param accountQuery
+	 * @return
+	 */
+	Pagination<Account> query(AccountQuery accountQuery);
+	
 }

@@ -8,6 +8,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.stereotype.Service;
@@ -15,7 +17,10 @@ import org.springframework.stereotype.Service;
 import com.google.common.collect.Lists;
 import com.stixu.persistence.GenericDao;
 import com.stixu.persistence.impl.GenericServiceImpl;
+import com.stixu.query.PageWrapper;
+import com.stixu.query.Pagination;
 import com.stixu.security.domain.Role;
+import com.stixu.security.query.RoleQuery;
 import com.stixu.security.repository.RoleRepository;
 import com.stixu.security.service.RoleService;
 
@@ -58,6 +63,20 @@ public class RoleServiceImpl extends GenericServiceImpl<Role, String> implements
 			attributes.add(new SecurityConfig(role.getAuthority()));
 		}
 		return attributes;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.stixu.security.service.RoleService#query(com.stixu.security.query.AccountQuery)
+	 */
+	@Override
+	public Pagination<Role> query(RoleQuery roleQuery) {
+		Pageable pageQuery = roleQuery.toPager();
+		Page<Role> result = findAll(pageQuery);
+		PageWrapper<Role> wrapper = PageWrapper.of(result);
+		if(wrapper !=null) {
+			return wrapper.toPagination();
+		}
+		return null;
 	}
 
 }

@@ -10,7 +10,9 @@ import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.security.access.ConfigAttribute;
 
 import com.stixu.persistence.GenericService;
+import com.stixu.query.Pagination;
 import com.stixu.security.domain.Role;
+import com.stixu.security.query.RoleQuery;
 
 /**
  * @since 1.0 2016年11月5日,上午11:42:47
@@ -26,5 +28,12 @@ public interface RoleService extends GenericService<Role, String> {
 	 * @return
 	 */
 	List<ConfigAttribute> findAllConfigs();
+	
+	/**
+	 * 查询分页对象
+	 * @param accountQuery
+	 * @return
+	 */
+	Pagination<Role> query(RoleQuery accountQuery);
 	
 }

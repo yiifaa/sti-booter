@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.stixu.security.SecurityContextUtils;
+import com.stixu.security.domain.Account;
 import com.stixu.security.domain.LoginState;
 
 /**
@@ -40,6 +42,12 @@ public class LoginController {
 	@RequestMapping(value="/success")
 	public LoginState success(HttpServletRequest request) {
 		LoginState state = new LoginState("app/home");
+		//state.setUsername(SecurityContextUtils.getCurrentAccount(request));
+		Account current = SecurityContextUtils.getCurrentAccount();
+		if(current != null) {
+			state.setUsername(current.getUsername());
+		}
+		//
 		state.setStatus(1);
 		state.setLogon(true);
 		state.setDesc("登陆成功");

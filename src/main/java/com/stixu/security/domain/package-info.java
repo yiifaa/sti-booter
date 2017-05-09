@@ -7,6 +7,6 @@
  * 
  * @author  <a href="mailto:ganhuanxp@163.com">甘焕</a>
  * @version  1.0
- * 开发日期：2017年5月9日 ： 上午9:47:35 
+ * 开发日期：2017年5月9日 ： 下午2:29:29 
  */
 package com.stixu.security.domain;

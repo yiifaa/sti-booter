@@ -9,6 +9,7 @@
 	<configs>
 		<config>src/main/webapp/META-INF/application-mvc-context.xml</config>
 		<config>src/main/resources/META-INF/springContext/application-global-context.xml</config>
+		<config>src/main/resources/META-INF/springContext/application-security-context.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>

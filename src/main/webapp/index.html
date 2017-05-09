@@ -3,8 +3,28 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>STI Booter</title>
+		<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 	</head>
 	<body>
 	   <h1>Hello,World!</h1>
+	   <a href="/StiRooter/app/home">主页</a>
+	   <button class="btn btn-default" id="btnLogin">登陆</button>
+	   <form action="/StiRooter/app/login/check" method="post">
+	   	<input name="j_username"/>
+	   	<input name="jimispassword"/>
+	   	<input type="submit" valud="登陆"/>
+	   </form>
+	   <script type="text/javascript">
+	   $(document).ready(function() {
+	   		$("#btnLogin").on("click", function() {
+	   			$.post('/StiRooter/login/check', {
+	   				username: 'jimi',
+	   				password: 'jimi'
+	   			}, function(data) {
+	   				console.log(data)
+	   			})
+	   		});
+	   });
+	   </script>
 	</body>
 </html>

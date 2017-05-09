@@ -18,6 +18,16 @@ public class LoginState {
 	private boolean logon = false;
 	
 	private String desc = "请登录";
+	
+	private String contextPath = "";
+	
+	/**
+	 * @param contextPath
+	 */
+	public LoginState(String contextPath) {
+		super();
+		this.contextPath = contextPath;
+	}
 
 	/**
 	 * @return the status
@@ -59,6 +69,20 @@ public class LoginState {
 	 */
 	public void setDesc(String desc) {
 		this.desc = desc;
+	}
+
+	/**
+	 * @return the contextPath
+	 */
+	public String getContextPath() {
+		return contextPath;
+	}
+
+	/**
+	 * @param contextPath the contextPath to set
+	 */
+	public void setContextPath(String contextPath) {
+		this.contextPath = contextPath;
 	}
 	
 }	

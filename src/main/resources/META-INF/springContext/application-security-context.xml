@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd">
+	<!--
+	<http pattern="/app/login/**" security="none"/>
+	
+	<http auto-config="true" request-matcher="mvc">
+		<intercept-url pattern="/sti/**" access="hasRole('USER')" />
+		<csrf disabled="true"/>
+		
+		<form-login login-page="/sti/login/index"
+					login-processing-url="/app/login/check"
+					password-parameter="j_password"
+					username-parameter="j_username"
+					authentication-failure-forward-url="/app/login/fail"
+					authentication-success-forward-url="/sti/home"
+					default-target-url="/sti/home"
+					always-use-default-target="false"/>
+					
+		<logout logout-url="/app/login/out"
+				invalidate-session="true"
+				logout-success-url="/app/login/index"/>			
+	</http>
+	-->
+	
+	
+	<http>
+		<intercept-url pattern="/login/*"  access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<intercept-url pattern="/app/**" access="hasRole('USER')" />
+		<csrf disabled="true"/>
+		<form-login authentication-success-forward-url="/app/home"
+					authentication-failure-forward-url="/app/login/fail"
+					always-use-default-target="false"
+					default-target-url="/app/home"
+					login-page="/index.html"
+					login-processing-url="/login/check"/>
+		<logout invalidate-session="true"
+				logout-url="/login/out"/>
+	</http>
+	
+	<authentication-manager>
+		<authentication-provider>
+			<user-service>
+				<user name="admin" password="admin123" authorities="ROLE_USER, ROLE_ADMIN" />
+				<user name="user" password="user123" authorities="ROLE_USER" />
+			</user-service>
+		</authentication-provider>
+	</authentication-manager>
+	
+</beans:beans>

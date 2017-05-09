@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.stixu.persistence.GenericDao;
@@ -35,22 +36,38 @@ public class AccountServiceImpl extends GenericServiceImpl<Account, String> impl
 
 	private AccountRepository dao;
 	
+	private PasswordEncoder encoder;
+	
 	/**
 	 * @param dao
 	 */
 	@Inject
-	public AccountServiceImpl(AccountRepository dao) {
+	public AccountServiceImpl(AccountRepository dao, PasswordEncoder encoder) {
 		super();
 		this.dao = dao;
+		this.encoder = encoder;
 	}
 
 	/* (non-Javadoc)
 	 * @see org.springframework.security.core.userdetails.UserDetailsService#loadUserByUsername(java.lang.String)
 	 */
 	@Override
-	public UserDetails loadUserByUsername(String arg0) throws UsernameNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		List<Account> accounts = dao.findByUsername(username);
+		return accounts.isEmpty() ? null : accounts.get(0);
+	}
+	
+	
+
+	/* (non-Javadoc)
+	 * @see com.stixu.persistence.impl.GenericServiceImpl#save(java.lang.Object)
+	 */
+	@Override
+	public <S extends Account> S save(S entity) {
+		String password = entity.getPassword();
+		password = encoder.encode(password);
+		entity.setPassword(password);
+		return super.save(entity);
 	}
 
 	/* (non-Javadoc)

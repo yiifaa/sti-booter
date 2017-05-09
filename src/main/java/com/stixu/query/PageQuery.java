@@ -27,7 +27,7 @@ public abstract class PageQuery<T> {
 	/**
 	 * 每页的数量
 	 */
-	private int pageSize = 0;
+	private int pageSize = 15;
 	
 	/**
 	 * 当前页数

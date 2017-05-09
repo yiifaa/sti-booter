@@ -15,6 +15,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.stixu.security.domain.Account;
 import com.stixu.security.service.AccountService;
 
 /**
@@ -36,6 +37,10 @@ public class AccountServiceTest {
 	@Test
 	public void test() {
 		assertThat(accountService, IsNull.notNullValue());
+		Account acc = new Account();
+		acc.setUsername("admin");
+		acc.setPassword("admin123");
+		accountService.save(acc);
 	}
 
 }

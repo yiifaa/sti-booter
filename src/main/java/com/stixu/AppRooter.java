@@ -10,6 +10,9 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ImportResource;
 
+import com.stixu.security.service.AccountService;
+import com.stixu.utils.ApplicationContextUtils;
+
 
 /**
  * 开发日期：2017年5月8日 ： 下午9:49:51
@@ -37,6 +40,8 @@ public class AppRooter extends SpringBootServletInitializer {
    	 */
    	public static void main(String[] args) {
    		SpringApplication.run(AppRooter.class, args);
+   		AccountService accountService = ApplicationContextUtils.getBean(AccountService.class);
+   		//	System.out.println(accountService == null);
    	}
 
 }

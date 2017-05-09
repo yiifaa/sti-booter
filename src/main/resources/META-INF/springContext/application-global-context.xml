@@ -15,6 +15,11 @@
 		</property>
 	</bean>
 	
+	<import resource="application-i18n-context.xml"/>
+	<import resource="application-repository-context.xml"/>
+	<!--  -->
+	<import resource="application-security-context.xml"/>
+	
 	<!-- 扫描MVC控制器 -->
 	<context:component-scan base-package="com.stixu">
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>	

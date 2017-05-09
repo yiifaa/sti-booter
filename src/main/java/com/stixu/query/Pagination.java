@@ -1,131 +1,115 @@
 /*
- * (c) Copyright 2016 STI eXtrem Using技术小组
- * http://www.stixu.com
+ * (c) Copyright 2017 STI
+ * http://stixu.com
  */
 package com.stixu.query;
 
-import java.util.Iterator;
 import java.util.List;
 
-import org.springframework.core.convert.converter.Converter;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
- * 对Spring的默认分页实现进行包装
+ * 分页输出数据
  * 
- * @author <a href="mailto:yiifaa@163.com>甘焕</a> 
- * @since 1.0
- * 2016年11月14日 下午7:42:51
+ * @author  <a href="mailto:ganhuanxp@163.com">甘焕</a>
+ * @version  1.0
+ * 开发日期：2017年5月9日 ： 上午9:36:01 
  */
-public class Pagination<T> implements Page<T>{
-
-	private PageImpl<T> pager;
+public class Pagination<T> {
 	
-	private Pagination(PageImpl<T> pager) {
-		this.pager = pager;
-	}
-	
-	public List<T> getContent() {
-		return pager.getContent();
-	}
-	
-	public boolean isLast() {
-		return pager.isLast();
-	}
-	
-	public boolean isFirst() {
-		return pager.isFirst();
-	}
-	
-	public int getTotalPages() {
-		return pager.getTotalPages();
-	}
-	
-	public long getTotalElements() {
-		return pager.getTotalElements();
-	}
-	
-	public int getNumber() {
-		return pager.getNumber() + 1;
-	}
-	
-	public int getSize() {
-		return pager.getSize();
-	}
-	
-	public int getNumberOfElements() {
-		return pager.getNumberOfElements();
-	}
-	
-	public Sort getSort() {
-		return pager.getSort();
-	}
-	
-	public static <S> Pagination<S> of(Page<S> pager) {
-		if(pager instanceof PageImpl) {
-			PageImpl<S> result = (PageImpl<S>)pager;
-			return new Pagination<S>(result);
-		}
-		return null;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.springframework.data.domain.Slice#hasContent()
-	 */
-	@Override
-	public boolean hasContent() {
-		return this.pager.hasNext();
-	}
-
-	/* (non-Javadoc)
-	 * @see org.springframework.data.domain.Slice#hasNext()
-	 */
-	@Override
-	public boolean hasNext() {
-		return this.pager.hasNext();
-	}
-
-	/* (non-Javadoc)
-	 * @see org.springframework.data.domain.Slice#hasPrevious()
-	 */
-	@Override
-	public boolean hasPrevious() {
-		return this.pager.hasPrevious();
-	}
-
-	/* (non-Javadoc)
-	 * @see org.springframework.data.domain.Slice#nextPageable()
-	 */
-	@Override
-	public Pageable nextPageable() {
-		return this.pager.nextPageable();
-	}
-
-	/* (non-Javadoc)
-	 * @see org.springframework.data.domain.Slice#previousPageable()
-	 */
-	@Override
-	public Pageable previousPageable() {
-		return this.pager.previousPageable();
-	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Iterable#iterator()
-	 */
-	@Override
-	public Iterator<T> iterator() {
-		return this.pager.iterator();
-	}
-
-	/* (non-Javadoc)
-	 * @see org.springframework.data.domain.Page#map(org.springframework.core.convert.converter.Converter)
-	 */
-	@Override
-	public <S> Page<S> map(Converter<? super T, ? extends S> converter) {
-		return this.pager.map(converter);
-	}
-
+	public static final int PAGE_SIZE = 15;
+    
+    private int count;
+    
+    private int currPage = 1;
+    
+    private int pageSize = PAGE_SIZE;
+    
+    private List<T> results;
+    
+    /**
+     * @return the count
+     */
+    public int getCount() {
+        return count;
+    }
+    
+    /**
+     * @return the currPage
+     */
+    public int getCurrPage() {
+    	//	如果删除的记录刚好在分页边界上
+    	int pages = this.getPages();
+		if(pages < this.currPage) {
+    		return pages;
+    	}
+        return currPage;
+    }
+    
+    /**
+     * 计算共有多少页
+     * 
+     * @return 页数
+     */
+    public int getPages() {
+        if(this.count % this.pageSize == 0) {
+            return this.count / this.pageSize;
+        }
+        return this.count / this.pageSize + 1;
+    }
+    
+    /**
+     * @return the pageSize
+     */
+    public int getPageSize() {
+        return pageSize;
+    }
+    
+    /**
+     * @return the results
+     */
+    public List<T> getResults() {
+        return results;
+    }
+    
+    /**
+     * @param count
+     *            the count to set
+     */
+    public void setCount(int count) {
+        this.count = count;
+    }
+    
+    /**
+     * @param currPage
+     *            the currPage to set
+     */
+    public void setCurrPage(int currPage) {
+        this.currPage = currPage;
+    }
+    
+    /**
+     * @param pageSize  the pageSize to set
+     */
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+    
+    /**
+     * @param results
+     *            the results to set
+     */
+    public void setResults(List<T> results) {
+        this.results = results;
+    }
+    
+    @Override
+    public String toString() {
+    	return new ToStringBuilder(this)
+    			      .append("count", this.count)
+    			      .append("currPage", this.getCurrPage())
+    			      .append("pageSize", this.pageSize)
+    			      .append("pages", this.getPages())
+    			      .toString();
+    }
 }

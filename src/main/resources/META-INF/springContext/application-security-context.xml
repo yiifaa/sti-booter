@@ -74,7 +74,7 @@
 					authentication-failure-forward-url="/app/login/fail"
 					always-use-default-target="false"
 					default-target-url="/app/home"
-					login-page="/index.html"
+					login-page="/app/login/index"
 					login-processing-url="/login/check"/>
 					
 		<logout invalidate-session="true"

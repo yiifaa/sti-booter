@@ -28,7 +28,8 @@ public class LoginController {
 	 */
 	@RequestMapping(value="/index")
 	public LoginState login(HttpServletRequest request) {
-		LoginState state = new LoginState(request.getContextPath());
+		LoginState state = new LoginState(request.getContextPath()+"/login");
+		state.setStatus(0);
 		return state;
 	}
 	
@@ -38,8 +39,10 @@ public class LoginController {
 	 */
 	@RequestMapping(value="/success")
 	public LoginState success(HttpServletRequest request) {
-		LoginState state = new LoginState(request.getContextPath());
+		LoginState state = new LoginState(request.getContextPath()+"/app/home");
+		state.setStatus(1);
 		state.setLogon(true);
+		state.setDesc("登陆成功");
 		return state;
 	}
 	
@@ -49,8 +52,10 @@ public class LoginController {
 	 */
 	@RequestMapping(value="/fail")
 	public LoginState fail(HttpServletRequest request) {
-		LoginState state = new LoginState(request.getContextPath());
+		LoginState state = new LoginState(request.getContextPath() + "/login");
+		state.setStatus(-1);
 		state.setLogon(false);
+		state.setDesc("登陆失败");
 		return state;
 	}
 	

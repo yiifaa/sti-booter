@@ -24,8 +24,6 @@ import org.springframework.security.core.GrantedAuthority;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.Lists;
-import com.stixu.security.SecurityConstants;
-
 
 /**
  * 系统角色

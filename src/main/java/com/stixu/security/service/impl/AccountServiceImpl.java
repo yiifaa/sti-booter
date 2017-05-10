@@ -4,6 +4,7 @@
  */
 package com.stixu.security.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -67,6 +68,7 @@ public class AccountServiceImpl extends GenericServiceImpl<Account, String> impl
 		String password = entity.getPassword();
 		password = encoder.encode(password);
 		entity.setPassword(password);
+		entity.setCreateTime(new Date());
 		return super.save(entity);
 	}
 

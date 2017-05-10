@@ -4,12 +4,13 @@
  */
 package com.stixu.home.controller;
 
-import java.util.Map;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.common.collect.Maps;
+import com.stixu.security.SecurityContextUtils;
+import com.stixu.security.domain.Account;
+import com.stixu.security.domain.LoginState;
 
 /**
  * 
@@ -22,10 +23,18 @@ import com.google.common.collect.Maps;
 public class HomeController {
 	
 	@RequestMapping(value="/home")
-	public Map<String, String> index() {
-		Map<String, String> result = Maps.newHashMap();
-		result.put("username", "甘焕");
-		return result;
+	public LoginState index() {
+		LoginState state = new LoginState("app/home");
+		//state.setUsername(SecurityContextUtils.getCurrentAccount(request));
+		Account current = SecurityContextUtils.getCurrentAccount();
+		if(current != null) {
+			state.setUsername(current.getUsername());
+		}
+		//
+		state.setStatus(1);
+		state.setLogon(true);
+		state.setDesc("登陆成功");
+		return state;
 	}
 
 }

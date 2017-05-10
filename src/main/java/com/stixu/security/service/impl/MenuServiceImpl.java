@@ -68,7 +68,7 @@ public class MenuServiceImpl extends GenericServiceImpl<Menu, String> implements
 		List<ConfigAttribute> loginAttrs  = Lists.newArrayList((ConfigAttribute)new SecurityConfig("ROLE_ANONYMOUS"));
 		configs.add(Pair.of(loginMat, loginAttrs));
 		
-		//
+		//	权限问题
 		AntPathRequestMatcher loginMat1 = new AntPathRequestMatcher("/app/login/*");
 		List<ConfigAttribute> loginAttrs1  = Lists.newArrayList((ConfigAttribute)new SecurityConfig("ROLE_ANONYMOUS"));
 		configs.add(Pair.of(loginMat1, loginAttrs1));

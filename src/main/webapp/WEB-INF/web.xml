@@ -35,7 +35,23 @@
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
 	</filter>
 	
-	    <filter>
+	<filter>
+	    <filter-name>etagFilter</filter-name>
+	    <filter-class>org.springframework.web.filter.ShallowEtagHeaderFilter</filter-class>
+	    <!-- Optional parameter that configures the filter to write weak ETags
+	    <init-param>
+	        <param-name>writeWeakETag</param-name>
+	        <param-value>true</param-value>
+	    </init-param>
+	    -->
+	</filter>
+	
+	<filter-mapping>
+	    <filter-name>etagFilter</filter-name>
+	    <servlet-name>stixuDispatcher</servlet-name>
+	</filter-mapping>
+	
+	<filter>
         <filter-name>urlRewriteFilter</filter-name>
         <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
         <init-param>

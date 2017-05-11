@@ -61,6 +61,7 @@
 	<!-- 静态资源不过滤 -->
 	<http pattern="/static/**" security="none"/>
 	<http pattern="/dist/**" security="none"/>
+	<http pattern="/app/login/*" security="none"/>
 	<http use-expressions="true" access-decision-manager-ref="accessDecisionManager"
 								 auto-config="true"	
 								 authentication-manager-ref="authenticationManager">

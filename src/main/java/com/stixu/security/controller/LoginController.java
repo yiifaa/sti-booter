@@ -41,9 +41,13 @@ public class LoginController {
 	 */
 	@RequestMapping(value="/success")
 	public LoginState success(HttpServletRequest request) {
+		/**
+		System.out.println(principal);
+		, Principal principal
+		**/
 		LoginState state = new LoginState("app/home");
-		//state.setUsername(SecurityContextUtils.getCurrentAccount(request));
-		Account current = SecurityContextUtils.getCurrentAccount();
+		Account current = SecurityContextUtils.getCurrentAccount(request);
+		//Account current = SecurityContextUtils.getCurrentAccount();
 		if(current != null) {
 			state.setUsername(current.getUsername());
 		}

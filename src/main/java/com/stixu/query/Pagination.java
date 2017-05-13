@@ -41,9 +41,12 @@ public class Pagination<T> {
     	//	如果删除的记录刚好在分页边界上
     	int pages = this.getPages();
 		if(pages < this.currPage) {
-    		return pages;
+    		this.currPage = pages; 
     	}
-        return currPage;
+		if(this.currPage < 1) {
+			this.currPage = 1; 
+		}
+        return this.currPage;
     }
     
     /**

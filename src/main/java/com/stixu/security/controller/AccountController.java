@@ -6,7 +6,6 @@ package com.stixu.security.controller;
 
 import javax.inject.Inject;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,7 +35,7 @@ public class AccountController {
 	
 	@RequestMapping("query")
 	public Pagination<Account> query(@ModelAttribute AccountQuery query){
-		return accountService.query(query);
+		return accountService.search(query);
 	}
 	
 }

@@ -9,19 +9,25 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.stixu.persistence.GenericDao;
 import com.stixu.persistence.impl.GenericServiceImpl;
 import com.stixu.query.PageWrapper;
 import com.stixu.query.Pagination;
+import com.stixu.query.PaginationBuilder;
+import com.stixu.query.QueryTemplate;
+import com.stixu.query.QueryType;
 import com.stixu.security.domain.Account;
 import com.stixu.security.query.AccountQuery;
+import com.stixu.security.repository.AccountPaginationDao;
 import com.stixu.security.repository.AccountRepository;
 import com.stixu.security.service.AccountService;
 
@@ -37,15 +43,18 @@ public class AccountServiceImpl extends GenericServiceImpl<Account, String> impl
 
 	private AccountRepository dao;
 	
+	private AccountPaginationDao accountDao;
+	
 	private PasswordEncoder encoder;
 	
 	/**
 	 * @param dao
 	 */
 	@Inject
-	public AccountServiceImpl(AccountRepository dao, PasswordEncoder encoder) {
+	public AccountServiceImpl(AccountRepository dao, AccountPaginationDao accountDao, PasswordEncoder encoder) {
 		super();
 		this.dao = dao;
+		this.accountDao = accountDao;
 		this.encoder = encoder;
 	}
 
@@ -92,6 +101,42 @@ public class AccountServiceImpl extends GenericServiceImpl<Account, String> impl
 			return wrapper.toPagination();
 		}
 		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.stixu.security.service.AccountService#search(com.stixu.security.query.AccountQuery)
+	 */
+	@Override
+	@Transactional(readOnly=true)
+	public Pagination<Account> search(AccountQuery accountQuery) {
+		return accountDao.findDomainPage(QueryType.JQL, accountQuery, new PaginationBuilder<Account, AccountQuery>() {
+
+			@Override
+			public void buildSelect(QueryTemplate qt) {
+				qt.append("select acc from Account acc ");
+			}
+
+			@Override
+			public void buildWhere(Account s, QueryTemplate qt) {
+				//
+				String username = s.getUsername();
+				if(StringUtils.isNoneBlank(username)) {
+					qt.append(" and acc.username like :username");
+					qt.addParameter("username", QueryTemplate.buildAllLike(StringUtils.trim(username)));
+				}
+			}
+
+			@Override
+			public void buildBys(String column, String order, QueryTemplate qt) {
+				qt.append(QueryTemplate.buildOrderBy("acc", column, order));
+			}
+
+			@Override
+			public void buildCount(QueryTemplate qt) {
+				qt.append("select count(acc) from Account acc");
+			}
+
+		});
 	}
 
 }

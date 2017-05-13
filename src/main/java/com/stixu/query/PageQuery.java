@@ -75,7 +75,10 @@ public abstract class PageQuery<T> {
      * @return 需要获取的第一条记录
      */
     public int getFirstResult() {
-        return (currPage - 1) * pageSize;
+    	if(currPage - 1 >= 0) {
+    		return (currPage - 1) * pageSize;
+    	}
+    	return 0;
     }
     
     /**
@@ -91,7 +94,10 @@ public abstract class PageQuery<T> {
      * @return the order
      */
     public String getOrder() {
-        return order;
+    	if(StringUtils.isNotBlank(order)) {
+    		return StringUtils.upperCase(order);
+    	}
+        return "DESC";
     }
     
     /**

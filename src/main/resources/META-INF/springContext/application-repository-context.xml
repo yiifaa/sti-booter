@@ -48,6 +48,7 @@
 						transaction-manager-ref="transactionManager"
 						query-lookup-strategy="create-if-not-found"
 						enable-default-transactions="true"
+						
 						base-package="com.stixu">
 	</jpa:repositories>
 </beans>

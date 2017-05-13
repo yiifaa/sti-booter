@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.stixu.persistence.GenericDao;
@@ -138,5 +139,22 @@ public class AccountServiceImpl extends GenericServiceImpl<Account, String> impl
 
 		});
 	}
+
+	/* (non-Javadoc)
+	 * @see com.stixu.security.service.AccountService#persist(com.stixu.security.domain.Account)
+	 */
+	@Override
+	@Transactional(readOnly=false, propagation=Propagation.REQUIRES_NEW)
+	public Account persist(Account account) {
+		if(account.isNew()) {
+			this.accountDao.persist(account);
+		} else {
+			this.accountDao.merge(account);
+		}
+		//this.dao.save(account);
+		return account;
+	}
+	
+	
 
 }

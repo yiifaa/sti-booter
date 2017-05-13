@@ -34,4 +34,11 @@ public interface AccountService extends GenericService<Account, String>, UserDet
 	 * @return
 	 */
 	Pagination<Account> search(AccountQuery accountQuery);
+	
+	/**
+	 * 
+	 * @param account
+	 * @return
+	 */
+	Account persist(Account account);
 }

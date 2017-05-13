@@ -260,6 +260,20 @@ public class PaginationDaoImpl<E, PK extends Serializable> implements Pagination
 		return findCount(countQt).intValue();
 	}
 
-	
+	 /* (non-Javadoc)
+     * @see secfox.soc.melon.persistence.GenericDao#merge(secfox.soc.melon.persistence.Identifiable)
+     */
+    @Override
+    public E merge(E entity) {
+        return entityManager.merge(entity);
+    }
+
+    /* (non-Javadoc)
+     * @see secfox.soc.melon.persistence.GenericDao#persist(secfox.soc.melon.persistence.Identifiable)
+     */
+    @Override
+    public void persist(E entity) {
+          entityManager.persist(entity);
+    }
     
 }

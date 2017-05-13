@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -24,10 +25,12 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.domain.Persistable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -46,7 +49,7 @@ import com.google.common.collect.Lists;
 	//	名称必须与方法名相同
 	@NamedQuery(name="Account.statByUsername", query = "select acc.username, count(acc.id) from Account acc group by acc.username")
 })
-public class Account implements UserDetails {
+public class Account implements UserDetails, Persistable<String> {
 	
 	private static final long serialVersionUID = -1093044397312199016L;
 
@@ -90,7 +93,7 @@ public class Account implements UserDetails {
 	private boolean credentialsExpired = false;
 	
 	/* 帐户所拥有的角色 */
-	@ManyToMany(fetch = FetchType.EAGER, targetEntity=Role.class)
+	@ManyToMany(fetch = FetchType.EAGER, targetEntity=Role.class, cascade=CascadeType.MERGE)
 	@JoinTable(name = "T_SECURITY_AR_CONN", joinColumns = { @JoinColumn(name = "ACCOUNT_ID") }, inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
 	@OrderBy("order asc")
 	@Fetch(FetchMode.SELECT)
@@ -263,6 +266,14 @@ public class Account implements UserDetails {
 	@Override
 	public String toString() {
 		return "Account [id=" + id + ", username=" + username + "]";
+	}
+
+	/* (non-Javadoc)
+	 * @see org.springframework.data.domain.Persistable#isNew()
+	 */
+	@Override
+	public boolean isNew() {
+		return StringUtils.isBlank(this.id);
 	}
 
 }

@@ -61,4 +61,20 @@ public interface PaginationDao<E, PK> {
      */
     <S, P extends PageQuery<S>> Pagination<E> findDomainPage(QueryType qlType, PageQuery<S> queryPage, PaginationBuilder<S, P> builder);
     
+    
+
+	/**
+     * 状态合并与更新
+     * @param entity 需要更新的实体类
+     * @return entity 更新的实体类
+     */
+    E merge(E entity);
+    
+    /**
+     * 持久化当前对象
+     * @param entity 实体
+     * @return 
+     */
+    void persist(E entity);
+	
   }
